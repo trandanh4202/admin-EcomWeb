@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { RouterProvider } from 'react-router-dom';
+import router from './Router/router';
+import '~/styles/globalStyles.scss';
+import '~/index.scss';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { ColorModeContext, ColorModelContext, themeSettings, useMode } from './theme/Theme';
+import { Provider, useSelector } from 'react-redux';
+import store from './redux/store';
+import { useState } from 'react';
 function App() {
+  // const [theme, colorMode] = useMode();
+  // const [isSidebar, setIsSidebar] = useState(true);
+
+  const colorMode = useSelector((state) => state.colorMode);
+  const theme = createTheme(themeSettings(colorMode));
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </ColorModeContext.Provider> */}
+
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </Provider>
+    </>
   );
 }
 
